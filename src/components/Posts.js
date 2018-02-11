@@ -10,7 +10,7 @@ class Posts extends PureComponent {
     return (
       <div>
         {this.props.posts.map(post => {
-          return <Post key={post} id={post} />;
+          return <Post key={post.id} url={post.url} title={post.title} />;
         })}
       </div>
     );
