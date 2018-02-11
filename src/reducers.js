@@ -1,4 +1,4 @@
-import { RECEIVE_POSTS, REQUEST_POSTS } from "./actions";
+import { RECEIVE_POSTS, REQUEST_POSTS, REQUEST_POSTS_FAILURE } from "./actions";
 
 const NOT_ASKED = "NOT_ASKED";
 const LOADING = "LOADING";
@@ -21,9 +21,15 @@ const posts = (state = initialState, action) => {
       return {
         status: SUCCESS,
         items: action.payload,
-      }
+      };
+    case REQUEST_POSTS_FAILURE:
+      return {
+        status: FAILURE,
+        items: []
+      };
+    default:
+      return state;
   }
-  return state;
 };
 
 export default posts;
