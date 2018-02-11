@@ -13,12 +13,16 @@ const processItems = items => items.slice(0, 5);
 
 const apiFetch = url => fetch(url, { "Content-type": "application/json" });
 
+const fetchPostContents = async (ids) => {
+  const responses = await Promise.all(ids.map(id => apiFetch(getPostUrl(id))));
+  return Promise.all(responses.map(response => response.json()));
+};
+
 export const fetchPosts = () => async dispatch => {
   dispatch(requestPosts());
   const response = await apiFetch(TOP_POSTS);
   const json = await response.json();
   const topPostIds = processItems(json);
-  const responses = await Promise.all(topPostIds.map(id => apiFetch(getPostUrl(id))));
-  const json2 = await Promise.all(responses.map(response => response.json()));
-  dispatch(receivePosts(json2));
+  const postContents = await fetchPostContents(topPostIds);
+  dispatch(receivePosts(postContents));
 };
